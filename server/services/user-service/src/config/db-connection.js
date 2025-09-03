@@ -1,3 +1,5 @@
+const mongoose = require('mongoose'); // ✅ Add this line
+
 const connectDB = async () => {
     try {
         const uri = process.env.MONGO_URI;
@@ -8,7 +10,7 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
-        console.log("✅ MongoDB connected successfully");
+        // console.log("✅ MongoDB connected successfully");
     } catch (err) {
         console.error("❌ Error connecting to MongoDB:", err.message);
         process.exit(1);

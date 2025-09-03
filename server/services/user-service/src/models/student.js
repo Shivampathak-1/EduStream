@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); 
 
 const studentSchema = new mongoose.Schema(
   {
@@ -8,27 +8,31 @@ const studentSchema = new mongoose.Schema(
       required: true,
     },
     enrolledCourses: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Course"
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "Course",
+      default: []
     }],
     progress: [
       {
-        course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+        course: { 
+          type: mongoose.Schema.Types.ObjectId, 
+          ref: "Course" 
+        },
         percentage: { 
           type: Number, 
           default: 0,
-          min: 0, // Ensure percentage is at least 0
-          max: 100 // Ensure percentage does not exceed 100
+          min: 0, 
+          max: 100 
         },
       },
     ],
     cart: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course"
+      ref: "Course",
     }],
     wishlist: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course"
+      ref: "Course",
     }],
   },
   { timestamps: true }

@@ -1,33 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { Route, Routes, useMatch } from 'react-router-dom'
+import Home from './pages/Student/Home'
+import CoursesList from './pages/Student/CoursesList'
+import CourseDetail from './pages/Student/CourseDetail'
+import EnrolledCourses from './pages/Student/EnrolledCourses'
+import Player from './pages/Student/Player'
+import Loading from './components/Student/Loading'
+import Educator from './pages/Educator/Educator'
+import Dashboard from './pages/Educator/Dashboard'
+import CreateCourse from './pages/Educator/CreateCourse'
+import MyCourses from './pages/Educator/MyCourses'
+import Navbar from './components/Student/Navbar'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const isEducatorRoute = useMatch('/educator/*');
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className='text-default min-h-screen bg-white'>
+      {!isEducatorRoute && <Navbar/>}
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/course-list' element={<CoursesList/>}/>
+        <Route path='/course-list/:input' element={<CoursesList/>}/>
+
+        <Route path='/course/:id' element={<CourseDetail/>}/>
+        <Route path='/enrolled-courses' element={<EnrolledCourses/>}/>
+        <Route path='/player/:courseId' element={<Player/>}/>
+        <Route path='/loading/:path' element={<Loading/>}/>
+        <Route path='/educator' element={<Educator/>}>
+          <Route path='educator' element={<Dashboard/>}/>
+          <Route path='create-course' element={<CreateCourse/>}/>
+          <Route path='my-courses' element={<MyCourses/>}/>
+        </Route>
+      </Routes>
+    </div>
     </>
   )
 }

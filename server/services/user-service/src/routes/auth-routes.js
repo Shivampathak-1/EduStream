@@ -1,26 +1,14 @@
 const express = require("express");
-const { register, login, logout, profile, updateProfile, isLoggedIn } = require("../controllers/auth-controller");
-const { addInstructor } = require("../controllers/admin-controller");
-const isAdmin = require("../middlewares/adminMiddleware");
+const authController = require("../controllers/auth-controller");
+const authMiddleware = require("../middlewares/auth-middleware");
 
 const router = express.Router();
 
-// Register user
-router.post("/register", register);
-
-// Login user
-router.post("/login", login);
-
-// Logout user
-router.post("/logout", logout);
-
-// Get user profile (protected route)
-router.get("/profile", isLoggedIn, profile);
-
-// Update user profile (protected route)
-router.put("/profile/update", isLoggedIn, updateProfile);
-
-// Admin route to add instructor
-router.post("/add-instructor", isLoggedIn, isAdmin, addInstructor);
+router.post("/register", ...authController.register);
+router.post("/login", authController.login);
+router.post("/logout", authMiddleware.isLoggedIn, authController.logout);
+router.post("/refresh-token", authController.refreshToken);
+router.get("/profile", authMiddleware.isLoggedIn, authController.profile);
+router.put("/profile/update", authMiddleware.isLoggedIn, authController.updateProfile);
 
 module.exports = router;
