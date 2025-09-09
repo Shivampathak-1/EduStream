@@ -1,7 +1,6 @@
 import logo from './logo.svg'
 import logo_dark from './logo_dark.svg'
 import search_icon from './search_icon.svg'
-import cross_icon from './cross_icon.svg'
 import upload_area from './upload_area.svg'
 import sketch from './sktech.svg'
 import microsoft_logo from './microsoft_logo.svg'
@@ -44,10 +43,13 @@ import profile_img3 from './profile_img3.png'
 import lesson_icon from './lesson_icon.svg'
 import edustream_logo from './EduStream_Logo.png'
 import heroImg from './heroImg.png'
+import menu_icon from './menu-icon.svg'
+import cross_icon from './cross-icon.svg'
 
 export const assets = {
     edustream_logo,
     heroImg,
+    menu_icon,
     logo,
     search_icon,
     sketch,
@@ -91,7 +93,7 @@ export const assets = {
     profile_img3,
     play_icon,
     blue_tick_icon,
-    lesson_icon
+    lesson_icon,
 }
 
 export const dummyEducatorData = {
