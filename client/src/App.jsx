@@ -1,51 +1,40 @@
-import React, { useState } from 'react';
-import { Route, Routes, useMatch } from 'react-router-dom';
-import Home from './pages/Student/Home';
-import CoursesList from './pages/Student/CoursesList';
-import CourseDetail from './pages/Student/CourseDetail';
-import EnrolledCourses from './pages/Student/EnrolledCourses';
-import Player from './pages/Student/Player';
-import Loading from './components/Student/Loading';
-import Educator from './pages/Educator/Educator';
-import Dashboard from './pages/Educator/Dashboard';
-import CreateCourse from './pages/Educator/CreateCourse';
-import MyCourses from './pages/Educator/MyCourses';
-import Navbar from './components/Student/Navbar';
-import Login from './pages/Student/Login'; // add your login page
+import { Routes, Route } from "react-router-dom";
+
+import StudentLayout from "./components/Layouts/StudentLayout";
+import EducatorLayout from "./components/Layouts/EducatorLayout";
+// import AdminLayout from "./layouts/AdminLayout";
+
+import Home from "./features/student/Home";
+import CoursesList from "./features/student/CoursesList";
+import CourseDetail from "./features/student/CourseDetail";
+import Login from "./features/auth/Login";
+import Signup from "./features/auth/Signup";
+
+import Dashboard from "./features/Educator/Dashboard/Dashboard";
+import CreateCourse from "./features/Educator/Courses/CreateCourse";
+import MyCourses from "./features/Educator/Courses/MyCourses";
 
 const App = () => {
-  const isEducatorRoute = useMatch('/educator/*');
-
-  // Auth state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
-    <div className="text-default min-h-screen bg-white">
-      {!isEducatorRoute && (
-        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      )}
-
-      <Routes>
+    <Routes>
+      {/* Public / Student */}
+      <Route element={<StudentLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/course-list" element={<CoursesList />} />
-        <Route path="/course-list/:input" element={<CoursesList />} />
-
+        <Route path="/courses" element={<CoursesList />} />
         <Route path="/course/:id" element={<CourseDetail />} />
-        <Route path="/enrolled-courses" element={<EnrolledCourses />} />
-        <Route path="/player/:courseId" element={<Player />} />
-        <Route path="/loading/:path" element={<Loading />} />
+      </Route>
 
-        {/* Login Page */}
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+      {/* Auth */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-        {/* Educator routes */}
-        <Route path="/educator" element={<Educator />}>
-          <Route path="educator" element={<Dashboard />} />
-          <Route path="create-course" element={<CreateCourse />} />
-          <Route path="my-courses" element={<MyCourses />} />
-        </Route>
-      </Routes>
-    </div>
+      {/* Educator */}
+      <Route path="/educator/*" element={<EducatorLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="create-course" element={<CreateCourse />} />
+        <Route path="my-courses" element={<MyCourses />} />
+      </Route>
+    </Routes>
   );
 };
 

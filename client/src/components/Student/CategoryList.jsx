@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
-import CategoryCard from "./CategoryCard";
+import CategoryCard from "../Layouts/CategoryCard";
 import {
   FaCode,
   FaPaintBrush,
@@ -9,6 +9,7 @@ import {
   FaDatabase,
   FaBullhorn,
 } from "react-icons/fa";
+import Button from "../Common/Button";
 
 /** Re-animates on every re-entry */
 const AnimatedInView = ({
@@ -71,9 +72,8 @@ const CategoryList = () => {
     {
       icon: <FaBullhorn />,
       title: "Communication",
-      description:
-        "Improve public speaking and communication skills.",
-    }
+      description: "Improve public speaking and communication skills.",
+    },
   ];
 
   // Show only 1 row (4 items) initially, max 3 rows (12 items) on "See All"
@@ -84,17 +84,22 @@ const CategoryList = () => {
   return (
     <section className="px-6 md:px-12 lg:px-28 py-12 bg-white">
       {/* Header */}
-      <AnimatedInView hidden={{ opacity: 0, y: -20 }} visible={{ opacity: 1, y: 0 }}>
+      <AnimatedInView
+        hidden={{ opacity: 0, y: -20 }}
+        visible={{ opacity: 1, y: 0 }}
+      >
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 text-center sm:text-left">
             Explore our top categories
           </h2>
-          <button
+          <Button
             onClick={() => setShowAll(!showAll)}
-            className="mt-4 sm:mt-0 bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+            color="blue"
+            size="md"
+            className="mt-4 sm:mt-0"
           >
             {showAll ? "Show Less" : "See All"}
-          </button>
+          </Button>
         </div>
       </AnimatedInView>
 

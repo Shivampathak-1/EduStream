@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
-import CourseCard from "./CourseCard";
+import CourseCard from "../Layouts/CourseCard";
 import { assets } from "../../assets/assets";
+import Button from "../Common/Button";
 
 // Reusable scroll animation
 const AnimatedInView = ({
@@ -92,17 +93,22 @@ const TopCourseList = () => {
   return (
     <section className="bg-white py-16 px-6 md:px-12 lg:px-28">
       {/* Section Header */}
-      <AnimatedInView hidden={{ opacity: 0, y: -20 }} visible={{ opacity: 1, y: 0 }}>
+      <AnimatedInView
+        hidden={{ opacity: 0, y: -20 }}
+        visible={{ opacity: 1, y: 0 }}
+      >
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 text-center sm:text-left">
             Explore our top courses
           </h2>
-          <button
+          <Button
             onClick={() => setShowAll(!showAll)}
-            className="mt-4 sm:mt-0 bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+            color="blue"
+            size="md"
+            className="mt-4 sm:mt-0"
           >
             {showAll ? "Show Less" : "See All"}
-          </button>
+          </Button>
         </div>
       </AnimatedInView>
 

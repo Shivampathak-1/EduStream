@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: "Internal Server Error" });
+  res.status(404).json({ message: "Error 404: Page not found" });
 });
 
 // Graceful Shutdown Handling
