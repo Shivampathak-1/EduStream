@@ -94,7 +94,7 @@ const CategoryList = () => {
           </h2>
           <Button
             onClick={() => setShowAll(!showAll)}
-            color="blue"
+            color="primary"
             size="md"
             className="mt-4 sm:mt-0"
           >

@@ -4,14 +4,14 @@ import TopCourseList from "../../components/Student/TopCourseList";
 import Testimonial from "../../components/Student/Testimonial";
 const Home = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow">
+    <main className="flex flex-col min-h-screen">
+      <div className="flex-grow">
         <Hero />
         <CategoryList />
         <TopCourseList />
         <Testimonial />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 

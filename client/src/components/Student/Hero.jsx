@@ -32,7 +32,7 @@ const Hero = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <Button color="blue" size="lg">
+          <Button color="primary" size="lg">
             Get Started
           </Button>
           <Button color="light_gray" size="lg">

@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import { assets } from "../../assets/assets";
+import Button from "../../components/Common/Button";
 
-const Login = ({ setIsLoggedIn }) => {
+const Login = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const { login } = useAuth();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,108 +22,120 @@ const Login = ({ setIsLoggedIn }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Replace with actual auth logic
-    setIsLoggedIn(true);
+
+    // 🔐 Replace with real API later
+    login({
+      token: "dummy-access-token",
+      role: "student",
+    });
+
     navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200 px-4">
-      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
-        {/* Title */}
-        <h2 className="text-3xl font-bold text-center text-gray-800">Welcome Back</h2>
-        <p className="text-center text-gray-500 mt-2">
-          Log in to your account to continue
-        </p>
-
-        {/* Form */}
-        <form onSubmit={handleLogin} className="mt-8 space-y-5">
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+          {/* Back & Logo */}
+          <FaArrowLeftLong
+            className="text-gray-600 cursor-pointer"
+            onClick={() => navigate("/")}
+          />
+          <div className="flex justify-center mb-6">
+            <img
+              src={assets.edustream_logo}
+              alt="EduStream Logo"
+              className="h-12 cursor-pointer"
             />
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
+          {/* Heading */}
+          <h2 className="text-3xl font-bold text-center text-gray-800">
+            Welcome Back
+          </h2>
+          <p className="text-center text-gray-500 mt-2">
+            Log in to your account
+          </p>
+
+          {/* Form */}
+          <form onSubmit={handleLogin} className="mt-2 space-y-2">
+            {/* Email */}
+            <div>
+              <label className="text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                required
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                required
+                className="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+              />
+            </div>
+
+            {/* Forgot */}
+            <div className="text-right">
+              <button
+                type="button"
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Forgot password?
+              </button>
+            </div>
+
+            {/* Submit */}
+            <Button color="primary" className="w-full" type="submit">
+              Log In
+            </Button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center my-4">
+            <hr className="flex-1 border-gray-300" />
+            <span className="px-3 text-sm text-gray-500">OR</span>
+            <hr className="flex-1 border-gray-300" />
           </div>
 
-          {/* Forgot password */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="text-sm text-blue-600 hover:underline"
-            >
-              Forgot password?
+          {/* OAuth */}
+          <div className="flex justify-center gap-3 space-y-3">
+            <button className=" h-14 border rounded-4xl py-2 px-4 hover:bg-gray-100 transition">
+              <FcGoogle size={20} />
+            </button>
+
+            <button className=" h-14 border rounded-4xl py-2 px-4 hover:bg-gray-50 transition">
+              <FaGithub size={20} />
             </button>
           </div>
 
-          {/* Login button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 shadow-md transition"
-          >
-            Log In
-          </button>
-        </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-1 border-gray-300" />
-          <span className="mx-3 text-gray-500 text-sm">OR</span>
-          <hr className="flex-1 border-gray-300" />
+          {/* Signup */}
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-blue-600 font-semibold hover:underline"
+            >
+              Sign Up
+            </button>
+          </p>
         </div>
-
-        {/* OAuth Buttons */}
-        <div className="space-y-3">
-          <button
-            type="button"
-            className="w-full flex items-center justify-center border rounded-lg py-2 hover:bg-gray-50 transition"
-          >
-            <FcGoogle className="text-xl mr-2" /> Continue with Google
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center justify-center border rounded-lg py-2 hover:bg-gray-50 transition"
-          >
-            <FaGithub className="text-xl mr-2" /> Continue with GitHub
-          </button>
-        </div>
-
-        {/* Sign up link */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Don’t have an account?{" "}
-          <button
-            onClick={() => navigate("/signup")}
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Sign Up
-          </button>
-        </p>
       </div>
-    </div>
+    </>
   );
 };
 

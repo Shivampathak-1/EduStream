@@ -4,7 +4,7 @@ const Button = ({
   children, // Button text or JSX
   onClick, // Click handler
   type = "button", // HTML button type
-  color = "blue", // Tailwind color: 'blue', 'red', 'green', etc.
+  color = "primary", // Tailwind color: 'blue', 'red', 'green', etc.
   size = "md", // 'sm', 'md', 'lg'
   disabled = false,
   className = "", // Extra custom classes
@@ -18,6 +18,7 @@ const Button = ({
 
   // Color classes
   const colorClasses = {
+    primary: " bg-[#2767d8] hover:bg-[#2b5ad4] text-white",
     light_blue: "bg-blue-400 hover:bg-blue-500 text-white",
     blue: "bg-blue-500 hover:bg-blue-600 text-white",
     dark_blue: "bg-blue-600 hover:bg-blue-700 text-white",

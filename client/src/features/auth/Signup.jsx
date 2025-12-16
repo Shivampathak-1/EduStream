@@ -1,151 +1,106 @@
-import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import { assets } from "../../assets/assets";
 
-const Signup = ({ setIsLoggedIn }) => {
+import SignupStepEmailOrPhone from "./SignupStepEmailOrPhone";
+import SignupStepOtp from "./SignupStepOtp";
+import SignupStepPassword from "./SignupStepPassword";
+import SignupStepName from "./SignupStepName";
+import SignupStepProgress from "./SignupStepProgress";
+
+const TOTAL_STEPS = 4;
+
+const Signup = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState({
-    name: "",
-    email: "",
+    contact: "", // email or phone
     password: "",
     confirmPassword: "",
+    name: "",
   });
 
+  const next = () => setStep((s) => s + 1);
+  const back = () => setStep((s) => s - 1);
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
+  const handleFinalSignup = () => {
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match!");
+      alert("Passwords do not match");
       return;
     }
-    // Replace with actual signup logic
-    setIsLoggedIn(true);
+
+    // 🔐 Replace with API later
+    login({
+      token: "dummy-access-token",
+      role: "student",
+    });
+
     navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200 px-4">
-      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8">
-        {/* Title */}
-        <h2 className="text-3xl font-bold text-center text-gray-800">
-          Create an Account
-        </h2>
-        <p className="text-center text-gray-500 mt-2">
-          Join EduStream and start your learning journey
-        </p>
-
-        {/* Form */}
-        <form onSubmit={handleSignup} className="mt-8 space-y-5">
-          {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="John Doe"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
-          </div>
-
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-              className="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none transition"
-            />
-          </div>
-
-          {/* Signup button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 shadow-md transition"
-          >
-            Sign Up
-          </button>
-        </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-1 border-gray-300" />
-          <span className="mx-3 text-gray-500 text-sm">OR</span>
-          <hr className="flex-1 border-gray-300" />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <img
+            src={assets.edustream_logo}
+            alt="EduStream"
+            className="h-12 cursor-pointer"
+            onClick={() => navigate("/")}
+          />
         </div>
 
-        {/* OAuth Buttons */}
-        <div className="space-y-3">
-          <button
-            type="button"
-            className="w-full flex items-center justify-center border rounded-lg py-2 hover:bg-gray-50 transition"
-          >
-            <FcGoogle className="text-xl mr-2" /> Continue with Google
-          </button>
-          <button
-            type="button"
-            className="w-full flex items-center justify-center border rounded-lg py-2 hover:bg-gray-50 transition"
-          >
-            <FaGithub className="text-xl mr-2" /> Continue with GitHub
-          </button>
-        </div>
+        {/* Progress */}
+        <SignupStepProgress step={step} total={TOTAL_STEPS} />
 
-        {/* Login link */}
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Already have an account?{" "}
-          <button
-            onClick={() => navigate("/login")}
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Log In
-          </button>
-        </p>
+        {/* STEP 1 — Email / Phone */}
+        {step === 1 && (
+          <SignupStepEmailOrPhone
+            value={form.contact}
+            onChange={handleChange}
+            onNext={next}
+          />
+        )}
+
+        {/* STEP 2 — OTP (self-contained) */}
+        {step === 2 && (
+          <SignupStepOtp
+            contact={form.contact}
+            onVerified={next} // 👈 important
+            onBack={back}
+          />
+        )}
+
+        {/* STEP 3 — Password */}
+        {step === 3 && (
+          <SignupStepPassword
+            form={form}
+            onChange={handleChange}
+            onBack={back}
+            onSubmit={next}
+          />
+        )}
+
+        {/* STEP 4 — Name */}
+        {step === 4 && (
+          <SignupStepName
+            value={form.name}
+            onChange={handleChange}
+            onBack={back}
+            onSubmit={handleFinalSignup}
+          />
+        )}
       </div>
     </div>
   );

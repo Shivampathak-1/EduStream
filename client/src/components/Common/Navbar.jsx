@@ -1,115 +1,157 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { assets } from "../../assets/assets";
-import { useNavigate } from "react-router-dom";
-import { HiOutlineMenu, HiX } from "react-icons/hi"; // hamburger & close icon
+import { useNavigate, Link, NavLink } from "react-router-dom";
+import { HiOutlineMenu, HiX, HiUserCircle } from "react-icons/hi";
 import Button from "./Button";
+import { useAuth } from "../../context/AuthProvider";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
   const [dropdown, setDropdown] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      setDropdown(!dropdown);
-    }
+  const menuItems = [
+    { name: "Home", path: "/" },
+    { name: "Courses", path: "/courses" },
+    { name: "My Learnings", path: "/my-learning" },
+  ];
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setDropdown(false);
+    navigate("/login");
   };
 
   return (
-    <nav className="h-16 w-full flex items-center justify-between px-6 bg-white shadow-md relative">
+    <nav className="h-16 w-full flex items-center justify-between px-6 bg-white shadow-md sticky top-0 z-50">
       {/* Logo */}
-      <div className="flex items-center">
-        <img
-          src={assets.edustream_logo}
-          alt="EduStream Logo"
-          className="h-12 w-auto cursor-pointer"
-          onClick={() => navigate("/")}
-        />
+      <img
+        src={assets.edustream_logo}
+        alt="EduStream Logo"
+        className="h-12 cursor-pointer"
+        onClick={() => navigate("/")}
+      />
+
+      {/* Desktop Links */}
+      <div className="hidden md:flex space-x-8 font-medium">
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={({ isActive }) =>
+              `transition ${
+                isActive
+                  ? "text-white font-semibold border-2 px-4 py-2 bg-[#2767d8] rounded-lg"
+                  : "text-gray-700 px-4 py-2 hover:text-blue-900 hover:border-2 hover:border-blue-600 hover:rounded-lg"
+              }`
+            }
+          >
+            {item.name}
+          </NavLink>
+        ))}
       </div>
 
-      {/* Search (Desktop Only) */}
-      <div className="hidden md:flex w-1/3 items-center border-2 border-gray-300 rounded-full px-4 py-2">
-        <input
-          type="text"
-          placeholder="Search courses..."
-          className="w-full bg-transparent border-none focus:outline-none text-gray-700 placeholder-gray-400"
-        />
-      </div>
+      {/* Desktop Auth */}
+      <div className="hidden md:flex items-center relative" ref={dropdownRef}>
+        {!isAuthenticated ? (
+          <Button color="primary" size="md" onClick={() => navigate("/login")}>
+            Log In
+          </Button>
+        ) : (
+          <>
+            {/* Profile Icon */}
+            <HiUserCircle
+              size={36}
+              className="cursor-pointer text-gray-700 hover:text-blue-900"
+              onClick={() => setDropdown((prev) => !prev)}
+            />
 
-      {/* Links (Desktop Only) */}
-      <div className="hidden md:flex space-x-8 font-medium text-base lg:text-lg">
-        <a href="/" className="hover:text-blue-900 transition-all">
-          Home
-        </a>
-        <a href="/courses" className="hover:text-blue-900 transition-all">
-          Courses
-        </a>
-        <a href="/careers" className="hover:text-blue-900 transition-all">
-          Careers
-        </a>
-        <a href="/about" className="hover:text-blue-900 transition-all">
-          About Us
-        </a>
-      </div>
-
-      {/* Login / Profile (Desktop Only) */}
-      <div className="hidden md:block relative">
-        <Button onClick={handleLoginClick} color="blue" size="md">
-          {isLoggedIn ? "Profile" : "Log In"}
-        </Button>
-
-        {isLoggedIn && dropdown && (
-          <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-md z-10">
-            <a href="#profile" className="block px-4 py-2 hover:bg-gray-200">
-              Profile
-            </a>
-            <a href="#settings" className="block px-4 py-2 hover:bg-gray-200">
-              Settings
-            </a>
-            <a
-              href="#logout"
-              className="block px-4 py-2 hover:bg-gray-200"
-              onClick={() => setIsLoggedIn(false)}
-            >
-              Log Out
-            </a>
-          </div>
+            {/* Dropdown */}
+            {dropdown && (
+              <div className="absolute right-0 top-12 w-44 bg-white rounded-lg shadow-lg border">
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                  onClick={() => setDropdown(false)}
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/settings"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                  onClick={() => setDropdown(false)}
+                >
+                  Settings
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
       {/* Mobile Menu Button */}
-      <div className="md:hidden flex items-center">
-        <button onClick={() => setMobileMenu(!mobileMenu)}>
-          {mobileMenu ? <HiX size={28} /> : <HiOutlineMenu size={28} />}
-        </button>
-      </div>
+      <button
+        className="md:hidden"
+        onClick={() => setMobileMenu((prev) => !prev)}
+      >
+        {mobileMenu ? <HiX size={28} /> : <HiOutlineMenu size={28} />}
+      </button>
 
       {/* Mobile Menu */}
       {mobileMenu && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col p-4 space-y-4 z-20 md:hidden">
-          <a href="/" className="hover:text-blue-900">
-            Home
-          </a>
-          <a href="/courses" className="hover:text-blue-900">
-            Courses
-          </a>
-          <a href="/careers" className="hover:text-blue-900">
-            Careers
-          </a>
-          <a href="/about" className="hover:text-blue-900">
-            About Us
-          </a>
-          <Button
-            color="blue"
-            size="md"
-            className="w-full"
-            onClick={handleLoginClick}
-          >
-            {isLoggedIn ? "Profile" : "Log In"}
-          </Button>
+        <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col p-4 space-y-4 md:hidden">
+          {menuItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={() => setMobileMenu(false)}
+              className="text-gray-700 hover:text-blue-900"
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {!isAuthenticated ? (
+            <Button
+              color="primary"
+              size="md"
+              className="w-full"
+              onClick={() => {
+                setMobileMenu(false);
+                navigate("/login");
+              }}
+            >
+              Log In
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              size="md"
+              className="w-full"
+              onClick={handleLogout}
+            >
+              Log Out
+            </Button>
+          )}
         </div>
       )}
     </nav>

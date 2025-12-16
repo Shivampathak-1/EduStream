@@ -7,6 +7,7 @@ import EducatorLayout from "./components/Layouts/EducatorLayout";
 import Home from "./features/student/Home";
 import CoursesList from "./features/student/CoursesList";
 import CourseDetail from "./features/student/CourseDetail";
+import MyLearning from "./features/student/MyLearning";
 import Login from "./features/auth/Login";
 import Signup from "./features/auth/Signup";
 
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<CoursesList />} />
         <Route path="/course/:id" element={<CourseDetail />} />
+        <Route path="/my-learning" element={<MyLearning />} />
       </Route>
 
       {/* Auth */}
