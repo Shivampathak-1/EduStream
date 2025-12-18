@@ -2,26 +2,17 @@ import React from "react";
 import { assets } from "../../assets/assets";
 import Button from "../Common/Button";
 
-// thumbnail,
-//   title,
-//   instructor,
-//   rating,
-//   students,
-//   hours,
-//   lectures,
-//   level,
-//   price,
-//   originalPrice,
-
 const CourseCard = (props) => {
-  // console.log("CourseCard props:", props);
   const finalPrice =
     Math.round(
       (props.coursePrice - (props.coursePrice * props.discount) / 100) * 100
     ) / 100;
 
   return (
-    <div className="bg-white cursor-pointer rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 transform hover:scale-105 ">
+    <div
+      onClick={props.onClick}
+      className="bg-white cursor-pointer rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 transform hover:scale-105 "
+    >
       {/* Thumbnail */}
       <div className="relative overflow-hidden">
         <img

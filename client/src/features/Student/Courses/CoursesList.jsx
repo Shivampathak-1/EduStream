@@ -3,8 +3,13 @@ import CourseCard from "../../../components/Layouts/CourseCard";
 import Button from "../../../components/Common/Button";
 import CourseSidebar from "../../../components/Layouts/CoursesSidebar";
 import { dummyCourses } from "../../../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 const CoursesList = () => {
+  const navigate = useNavigate();
+  const handleOpen = (id) => {
+    navigate(`/course/${id}`);
+  };
   return (
     <main className="flex flex-col min-h-screen bg-gray-50">
       {/* Page Title */}
@@ -32,8 +37,12 @@ const CoursesList = () => {
 
         {/* Right Courses Grid */}
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-8">
-          {dummyCourses.map((course, index) => (
-            <CourseCard key={index} {...course} />
+          {dummyCourses.map((course) => (
+            <CourseCard
+              key={course._id}
+              onClick={() => handleOpen(course._id)}
+              {...course}
+            />
           ))}
         </div>
       </div>
