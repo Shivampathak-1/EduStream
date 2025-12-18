@@ -5,9 +5,9 @@ import EducatorLayout from "./components/Layouts/EducatorLayout";
 // import AdminLayout from "./layouts/AdminLayout";
 
 import Home from "./features/student/Home";
-import CoursesList from "./features/student/CoursesList";
-import CourseDetail from "./features/student/CourseDetail";
-import MyLearning from "./features/student/MyLearning";
+import CoursesList from "./features/Student/Courses/CoursesList";
+import CourseDetail from "./features/Student/Courses/CourseDetail";
+import MyLearning from "./features/Student/MyLearning";
 import Login from "./features/auth/Login";
 import Signup from "./features/auth/Signup";
 

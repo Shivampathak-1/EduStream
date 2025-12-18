@@ -1,8 +1,8 @@
 import React from "react";
-import CourseCard from "../../components/Layouts/CourseCard";
-import Button from "../../components/Common/Button";
-import CourseSidebar from "../../components/Layouts/CoursesSidebar";
-import { dummyCourses } from "../../assets/assets";
+import CourseCard from "../../../components/Layouts/CourseCard";
+import Button from "../../../components/Common/Button";
+import CourseSidebar from "../../../components/Layouts/CoursesSidebar";
+import { dummyCourses } from "../../../assets/assets";
 
 const CoursesList = () => {
   return (
