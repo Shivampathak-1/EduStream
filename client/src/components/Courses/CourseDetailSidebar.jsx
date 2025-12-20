@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaHeart, FaCheckCircle, FaPlay } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { useAuth } from "../../../context/AuthProvider";
+import { useAuth } from "../../context/AuthProvider";
 
 const getEmbedUrl = (url) => {
   if (!url) return "";
@@ -19,7 +19,7 @@ const getEmbedUrl = (url) => {
   return url;
 };
 
-const CourseSidebar = ({ course }) => {
+const CourseDetailSidebar = ({ course }) => {
   const { accessToken } = useAuth(); // dummy auth
   const userId = "user_2qjlgkAqIMpiR2flWIRzvWKtE0w_sdfsd"; // dummy user id
 
@@ -172,4 +172,4 @@ const CourseSidebar = ({ course }) => {
   );
 };
 
-export default CourseSidebar;
+export default CourseDetailSidebar;

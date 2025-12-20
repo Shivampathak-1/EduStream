@@ -16,6 +16,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Courses", path: "/courses" },
     { name: "My Learnings", path: "/my-learning" },
+    { name: "Become Educator", path: "/educator/apply" },
   ];
 
   // Close dropdown on outside click
@@ -67,6 +68,7 @@ const Navbar = () => {
       {/* Desktop Auth */}
       <div className="hidden md:flex items-center relative" ref={dropdownRef}>
         {!isAuthenticated ? (
+          // <FaRegHeart />
           <Button color="primary" size="md" onClick={() => navigate("/login")}>
             Log In
           </Button>

@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import { dummyCourses } from "../../../assets/assets";
 
-import CourseHero from "./CourseHero";
-import CourseSidebar from "./CourseSidebar";
-import CourseLearnings from "./CourseLearnings";
-import CourseContent from "./CourseContent";
+import CourseHero from "../../../components/Courses/CourseHero";
+import CourseDetailSidebar from "../../../components/Courses/CourseDetailSidebar";
+import CourseLearnings from "../../../components/Courses/CourseLearnings";
+import CourseContent from "../../../components/Courses/CourseContent";
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -44,7 +44,7 @@ const CourseDetail = () => {
         </div>
 
         {/* RIGHT */}
-        <CourseSidebar course={course} />
+        <CourseDetailSidebar course={course} />
       </div>
     </div>
   );
